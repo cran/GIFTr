@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Omar I. Elashkar" />
+
+
+<title>Using ‘GIFTr’ Package To Prepare ‘MOODLE’ Quiz from Spreadsheet</title>
+
+<script>$(document).ready(function(){
+    if (typeof $('[data-toggle="tooltip"]').tooltip === 'function') {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+    if ($('[data-toggle="popover"]').popover === 'function') {
+        $('[data-toggle="popover"]').popover();
+    }
+});
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Using ‘GIFTr’ Package To Prepare ‘MOODLE’ Quiz from Spreadsheet</h1>
+<h4 class="author">Omar I. Elashkar</h4>
+
+
+
+<div id="what-is-giftr" class="section level2">
+<h2>What is GIFTr?</h2>
+<p>GIFTr package in intended to help course creators to upload questions to MOODLE and other LMS for quizzes. GIFTr takes dataframe or tibble of questions of four types: mcq, numerical questions, true or false and short answer,and export it a text file formatted in MOODLE GIFT format. You can prepare a spreadsheet in any software and import it in R and generate any number of questions with HTML, markdown and LATEX support.</p>
+</div>
+<div id="aim-of-this-document" class="section level2">
+<h2>Aim of this document</h2>
+<p>The aim of vignette is to highlight the most useful features of <code>GIFTr</code> in preparing a flexible MOODLE quiz as quick as possible with the lowest possibility of errors.</p>
+</div>
+<div id="before-you-start." class="section level2">
+<h2>Before you start.</h2>
+<p>Before going through this tutorial you should have: - R installed - spreadsheet application, like MS Excel, Google Sheets, Libre Calc …etc.</p>
+</div>
+<div id="how-to-start-your-quiz-spreadsheet" class="section level2">
+<h2>How to start your quiz spreadsheet?</h2>
+<p>The data passed would differ slightly according to question type, however generally you need to have:-</p>
+<ul>
+<li>a column contains question. This cannot contain empty values</li>
+<li>answer(s) column(s). This may be multiple columns if you have multiple answers. If you mix single and multiple answer it is better to write the single answer in the first column. If you have <strong>only single answer MCQ and NO multiple answer MCQ</strong>, you can set the answers without asterisk in the first column of the answers columns. More details in the vignette and below.</li>
+<li>a column specifying the type of question. The current supported questions are MCQ, numerical entry, true or false and short answer questions. The should be named ‘mcq’ , ‘num_q’ , ‘tf_q’ and ‘short_ans’ respectively.</li>
+<li>a column specifying categories and subcategories in the MOODLE categories are important when you are preparing a quiz as you may want to specify certain proportions of inclusions. Categories and subcategories are spaced by forward slash like Categ1/subcateg1/subsubcateg1 …etc.</li>
+<li>a column specifying question names. So you can easily enter a certain question names by like certain ID or keyword to make the questions easily on the system. however you don’t need to worry about that as automatically if not set, the first 40 letter are set a question name.</li>
+</ul>
+<p><br /> Here is what your spreadsheet heading should look like.</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+categories
+</th>
+<th style="text-align:left;">
+names
+</th>
+<th style="text-align:left;">
+question
+</th>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:left;">
+C
+</th>
+<th style="text-align:left;">
+D
+</th>
+<th style="text-align:left;">
+E
+</th>
+<th style="text-align:left;">
+question_type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+</tr>
+</tbody>
+</table>
+<div id="categories-column" class="section level3">
+<h3>categories column</h3>
+<p>If you want to add high control for your quiz, you can specify categories in hierarchical order. For example if you want to create this quiz under category Questions and subcategory to be history and under that chapter2 , you can write it as <code>Ques/hist/chap2</code></p>
+</div>
+<div id="questions-column" class="section level3">
+<h3>Questions column</h3>
+<p>This is where you specify the question text. This can’t be empty at any question row.</p>
+<div id="markdown-and-html-support" class="section level4">
+<h4>Markdown and HTML Support</h4>
+<p>You can use markdown formatting like <code>**bold**</code> and <em>italic</em> and the more advance formatting like tables. You also can use HTML tags in this question like <code>&lt;sub&gt;</code> and <code>&lt;sup&gt;</code></p>
+</div>
+<div id="latex-support" class="section level4">
+<h4>LATEX Support</h4>
+<p>You can use latex as inline or block code, between single $ or double $$ dollar sign. However you have to be careful if you have equal sign or curly brackets to use  to escape it. For more about escaping characters in GIFT check <a href="https://docs.moodle.org/37/en/GIFT_format#Special_Characters_.7E_.3D_.23_.7B_.7D">MOODLE docs</a></p>
+</div>
+</div>
+<div id="answers-column" class="section level3">
+<h3>Answers column</h3>
+<p>You can have one or more answer columns. The formatting can differ slightly from question to another. Below I will highlight the most important tips. #### HTML, markdown and LATEX Like question text, answers can be formatted with HTML, markdown or LATEX.</p>
+<div id="mcq" class="section level4">
+<h4>MCQ</h4>
+When you write MCQs answers you have the flexibility of marking more than one correct answer to be preceded by asterisk *. If you mark only one answer by asterisk, you will get an MCQ question of single answer type and this answer will hold 100% of credit. If you mark many answers, answer will take partial equally divided positive credit and the wrong answers will take equally divided negative credit. This is to prevent selecting all the answers to get 100% credit as MOODLE don’t allow it automatically. <br /> Below is a whole example of a single and a multiple answer MCQ respectively.
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+categories
+</th>
+<th style="text-align:left;">
+names
+</th>
+<th style="text-align:left;">
+question
+</th>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:left;">
+C
+</th>
+<th style="text-align:left;">
+D
+</th>
+<th style="text-align:left;">
+E
+</th>
+<th style="text-align:left;">
+question_type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q1
+</td>
+<td style="text-align:left;">
+Who’s buried in <strong>Grant’s tomb</strong>?
+</td>
+<td style="text-align:left;">
+*Grant
+</td>
+<td style="text-align:left;">
+no one#Was true for 12 years, but Grant’s remains were buried in the tomb in 1897
+</td>
+<td style="text-align:left;">
+Napoleon#He was buried in France
+</td>
+<td style="text-align:left;">
+Churchill#He was buried in England
+</td>
+<td style="text-align:left;">
+Mother Teresa#She was buried in India
+</td>
+<td style="text-align:left;">
+mcq
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q2
+</td>
+<td style="text-align:left;">
+What two people are entombed in <strong>Grant’s tomb?</strong>
+</td>
+<td style="text-align:left;">
+No one
+</td>
+<td style="text-align:left;">
+*Grant
+</td>
+<td style="text-align:left;">
+*Grant’s wife
+</td>
+<td style="text-align:left;">
+Grant’s father
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+mcq
+</td>
+</tr>
+</tbody>
+</table>
+<p><br /></p>
+<p>If you don’t want to have a multiple answers MCQ and want to write <strong>ONLY</strong> single answer MCQ and want a quicker approach than asterisk, you can neglect asterisk and position the all right answers to be in the first column answer. Below is an example of single answer MCQ with the correct answer in column A</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+categories
+</th>
+<th style="text-align:left;">
+names
+</th>
+<th style="text-align:left;">
+question
+</th>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:left;">
+C
+</th>
+<th style="text-align:left;">
+D
+</th>
+<th style="text-align:left;">
+E
+</th>
+<th style="text-align:left;">
+question_type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q1
+</td>
+<td style="text-align:left;">
+Who’s buried in <strong>Grant’s tomb</strong>?
+</td>
+<td style="text-align:left;">
+Grant
+</td>
+<td style="text-align:left;">
+no one#Was true for 12 years, but Grant’s remains were buried in the tomb in 1897
+</td>
+<td style="text-align:left;">
+Napoleon#He was buried in France
+</td>
+<td style="text-align:left;">
+Churchill#He was buried in England
+</td>
+<td style="text-align:left;">
+Mother Teresa#She was buried in India
+</td>
+<td style="text-align:left;">
+mcq
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="numeric-entry" class="section level4">
+<h4>Numeric Entry</h4>
+You can right single or multiple answers of numeric entry questions with ranges and limits. - Answer with no preceding credit will take 100% credit. - If you precede an answer with partial credit, for example, ’‘%80%2’, typing 2 will give 80% of the credit for this question. - You can use ranges and limits like. - ‘4..6’ is any answer minimum 4 and maximum 6 - ‘5:1’ the answer is 5 plus or minus 1 Below are examples of numeric questions
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+categories
+</th>
+<th style="text-align:left;">
+names
+</th>
+<th style="text-align:left;">
+question
+</th>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:left;">
+C
+</th>
+<th style="text-align:left;">
+D
+</th>
+<th style="text-align:left;">
+E
+</th>
+<th style="text-align:left;">
+question_type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+Ques/math
+</td>
+<td style="text-align:left;">
+Q7
+</td>
+<td style="text-align:left;">
+What is the value of pi (to 3 decimal places)?
+</td>
+<td style="text-align:left;">
+3.14159:0.0005
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+num_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+8
+</td>
+<td style="text-align:left;">
+Ques/math
+</td>
+<td style="text-align:left;">
+Q8
+</td>
+<td style="text-align:left;">
+What is the value of pi (to 3 decimal places)?
+</td>
+<td style="text-align:left;">
+3.141..3.142
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+num_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+When was Ulysses S. Grant born?
+</td>
+<td style="text-align:left;">
+1822:0
+</td>
+<td style="text-align:left;">
+%50%1822:2#Not very percise
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+num_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+10
+</td>
+<td style="text-align:left;">
+Ques/math
+</td>
+<td style="text-align:left;">
+Q10
+</td>
+<td style="text-align:left;">
+2&lt;sup&gt;2&lt;/sup&gt;
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+num_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+11
+</td>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+<td style="text-align:left;">
+<span class="math display">\[\int_\{1\}^\{2\}\{2xdx\}\]</span>
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+num_q
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="short-answer-question" class="section level4">
+<h4>Short Answer Question</h4>
+You can use a single or multiple answers to be the answer with the same concept of partial credits of numeric questions, where no preceding credit is 100% and %90% is 90% …etc.
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+categories
+</th>
+<th style="text-align:left;">
+names
+</th>
+<th style="text-align:left;">
+question
+</th>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:left;">
+C
+</th>
+<th style="text-align:left;">
+D
+</th>
+<th style="text-align:left;">
+E
+</th>
+<th style="text-align:left;">
+question_type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q5
+</td>
+<td style="text-align:left;">
+Who’s buried in Grant’s tomb?
+</td>
+<td style="text-align:left;">
+Grant
+</td>
+<td style="text-align:left;">
+Ulysses S. Grant
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Ulysses Grant
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+short_ans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+Ques/math
+</td>
+<td style="text-align:left;">
+Q6
+</td>
+<td style="text-align:left;">
+Two plus two equals
+</td>
+<td style="text-align:left;">
+four
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+short_ans
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="true-or-false" class="section level4">
+<h4>True or False</h4>
+For true or false questions, you just right ‘T’ or ‘F’ in the first answer column.
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+categories
+</th>
+<th style="text-align:left;">
+names
+</th>
+<th style="text-align:left;">
+question
+</th>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:left;">
+C
+</th>
+<th style="text-align:left;">
+D
+</th>
+<th style="text-align:left;">
+E
+</th>
+<th style="text-align:left;">
+question_type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q3
+</td>
+<td style="text-align:left;">
+Grant was buried in a tomb in New York City
+</td>
+<td style="text-align:left;">
+T
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+tf_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+Ques/science
+</td>
+<td style="text-align:left;">
+Q4
+</td>
+<td style="text-align:left;">
+The sun rises in the West.
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+tf_q
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="answer-feedback" class="section level4">
+<h4>Answer Feedback</h4>
+<p>You can always add a feedback for any answer selected by adding # sign after the answer.</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:left;">
+C
+</th>
+<th style="text-align:left;">
+D
+</th>
+<th style="text-align:left;">
+E
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+*Grant
+</td>
+<td style="text-align:left;">
+no one#Was true for 12 years, but Grant’s remains were buried in the tomb in 1897
+</td>
+<td style="text-align:left;">
+Napoleon#He was buried in France
+</td>
+<td style="text-align:left;">
+Churchill#He was buried in England
+</td>
+<td style="text-align:left;">
+Mother Teresa#She was buried in India
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+1822:0
+</td>
+<td style="text-align:left;">
+%50%1822:2#Not very percise
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="question-type-column" class="section level3">
+<h3>Question type column</h3>
+<p>The question types supported are mcq, numeric entry, true or false and short answer. You don’t have to specify those if you have only one type of them as you can use a single function specific to create those types of questions, however if you want to use <code>GIFTr()</code> function, you can’t leave this column empty.</p>
+<ul>
+<li>for mcq value is <code>mcq</code></li>
+<li>for numeric entry value is ‘num_q’</li>
+<li>for true or false value is <code>tf_q</code></li>
+<li>for short answer value is <code>short_ans</code></li>
+</ul>
+</div>
+<div id="question-names-column" class="section level3">
+<h3>Question names column</h3>
+<p>If you want to specify a specific keyword or ID for a question, you can specify it here. However you don’t have to worry about that this as question name is automatically generated to be the first 40 words of the questions column.</p>
+<p>Here is how a full data may like.</p>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+categories
+</th>
+<th style="text-align:left;">
+names
+</th>
+<th style="text-align:left;">
+question
+</th>
+<th style="text-align:left;">
+A
+</th>
+<th style="text-align:left;">
+B
+</th>
+<th style="text-align:left;">
+C
+</th>
+<th style="text-align:left;">
+D
+</th>
+<th style="text-align:left;">
+E
+</th>
+<th style="text-align:left;">
+question_type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q1
+</td>
+<td style="text-align:left;">
+Who’s buried in <strong>Grant’s tomb</strong>?
+</td>
+<td style="text-align:left;">
+*Grant
+</td>
+<td style="text-align:left;">
+no one#Was true for 12 years, but Grant’s remains were buried in the tomb in 1897
+</td>
+<td style="text-align:left;">
+Napoleon#He was buried in France
+</td>
+<td style="text-align:left;">
+Churchill#He was buried in England
+</td>
+<td style="text-align:left;">
+Mother Teresa#She was buried in India
+</td>
+<td style="text-align:left;">
+mcq
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q2
+</td>
+<td style="text-align:left;">
+What two people are entombed in <strong>Grant’s tomb?</strong>
+</td>
+<td style="text-align:left;">
+No one
+</td>
+<td style="text-align:left;">
+*Grant
+</td>
+<td style="text-align:left;">
+*Grant’s wife
+</td>
+<td style="text-align:left;">
+Grant’s father
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+mcq
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q3
+</td>
+<td style="text-align:left;">
+Grant was buried in a tomb in New York City
+</td>
+<td style="text-align:left;">
+T
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+tf_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/science
+</td>
+<td style="text-align:left;">
+Q4
+</td>
+<td style="text-align:left;">
+The sun rises in the West.
+</td>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+tf_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q5
+</td>
+<td style="text-align:left;">
+Who’s buried in Grant’s tomb?
+</td>
+<td style="text-align:left;">
+Grant
+</td>
+<td style="text-align:left;">
+Ulysses S. Grant
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Ulysses Grant
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+short_ans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/math
+</td>
+<td style="text-align:left;">
+Q6
+</td>
+<td style="text-align:left;">
+Two plus two equals
+</td>
+<td style="text-align:left;">
+four
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+short_ans
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/math
+</td>
+<td style="text-align:left;">
+Q7
+</td>
+<td style="text-align:left;">
+What is the value of pi (to 3 decimal places)?
+</td>
+<td style="text-align:left;">
+3.14159:0.0005
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+num_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/math
+</td>
+<td style="text-align:left;">
+Q8
+</td>
+<td style="text-align:left;">
+What is the value of pi (to 3 decimal places)?
+</td>
+<td style="text-align:left;">
+3.141..3.142
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+num_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q9
+</td>
+<td style="text-align:left;">
+When was Ulysses S. Grant born?
+</td>
+<td style="text-align:left;">
+1822:0
+</td>
+<td style="text-align:left;">
+%50%1822:2#Not very percise
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+num_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/math
+</td>
+<td style="text-align:left;">
+Q10
+</td>
+<td style="text-align:left;">
+2&lt;sup&gt;2&lt;/sup&gt;
+</td>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+num_q
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ques/hist
+</td>
+<td style="text-align:left;">
+Q11
+</td>
+<td style="text-align:left;">
+<span class="math display">\[\int_\{1\}^\{2\}\{2xdx\}\]</span>
+</td>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+num_q
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="import-to-r" class="section level2">
+<h2>Import to R</h2>
+<p>It doesn’t matter how you import to R, you can use <code>readxl</code> package or <code>read.csv()</code> or what ever you like to import your spreadsheet as dataframe or tibble. A build-in data called <code>GIFTrData</code> is implemented here as example of spreadsheet after importing.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(GIFTr)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">head</span>(GIFTrData)</a></code></pre></div>
+<pre><code>##     categories names                                          question
+## 1    Ques/hist    Q1                 Who's buried in **Grant's tomb**?
+## 2    Ques/hist    Q2 What two people are entombed in **Grant's tomb?**
+## 3    Ques/hist    Q3       Grant was buried in a tomb in New York City
+## 4 Ques/science    Q4                        The sun rises in the West.
+## 5    Ques/hist    Q5                     Who's buried in Grant's tomb?
+## 6    Ques/math    Q6                               Two plus two equals
+##        A
+## 1 *Grant
+## 2 No one
+## 3      T
+## 4      F
+## 5  Grant
+## 6   four
+##                                                                                   B
+## 1 no one#Was true for 12 years, but Grant's remains were buried in the tomb in 1897
+## 2                                                                            *Grant
+## 3                                                                              &lt;NA&gt;
+## 4                                                                              &lt;NA&gt;
+## 5                                                                  Ulysses S. Grant
+## 6                                                                                 4
+##                                  C                                  D
+## 1 Napoleon#He was buried in France Churchill#He was buried in England
+## 2                    *Grant's wife                     Grant's father
+## 3                             &lt;NA&gt;                               &lt;NA&gt;
+## 4                             &lt;NA&gt;                               &lt;NA&gt;
+## 5                             &lt;NA&gt;                      Ulysses Grant
+## 6                             &lt;NA&gt;                               &lt;NA&gt;
+##                                       E question_type
+## 1 Mother Teresa#She was buried in India           mcq
+## 2                                  &lt;NA&gt;           mcq
+## 3                                  &lt;NA&gt;          tf_q
+## 4                                  &lt;NA&gt;          tf_q
+## 5                                  &lt;NA&gt;     short_ans
+## 6                                  &lt;NA&gt;     short_ans</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">str</span>(GIFTrData)</a></code></pre></div>
+<pre><code>## 'data.frame':    11 obs. of  9 variables:
+##  $ categories   : chr  &quot;Ques/hist&quot; &quot;Ques/hist&quot; &quot;Ques/hist&quot; &quot;Ques/science&quot; ...
+##  $ names        : chr  &quot;Q1&quot; &quot;Q2&quot; &quot;Q3&quot; &quot;Q4&quot; ...
+##  $ question     : chr  &quot;Who's buried in **Grant's tomb**?&quot; &quot;What two people are entombed in **Grant's tomb?**&quot; &quot;Grant was buried in a tomb in New York City&quot; &quot;The sun rises in the West.&quot; ...
+##  $ A            : chr  &quot;*Grant&quot; &quot;No one&quot; &quot;T&quot; &quot;F&quot; ...
+##  $ B            : chr  &quot;no one#Was true for 12 years, but Grant's remains were buried in the tomb in 1897&quot; &quot;*Grant&quot; NA NA ...
+##  $ C            : chr  &quot;Napoleon#He was buried in France&quot; &quot;*Grant's wife&quot; NA NA ...
+##  $ D            : chr  &quot;Churchill#He was buried in England&quot; &quot;Grant's father&quot; NA NA ...
+##  $ E            : chr  &quot;Mother Teresa#She was buried in India&quot; NA NA NA ...
+##  $ question_type: chr  &quot;mcq&quot; &quot;mcq&quot; &quot;tf_q&quot; &quot;tf_q&quot; ...</code></pre>
+</div>
+<div id="giftr-function" class="section level2">
+<h2>GIFTr Function</h2>
+<p><code>GIFTr()</code> function is the main function of <code>GIFTr</code> Package. It arguments are:- - <code>data</code>: dataframe or tibble of the questions data - <code>questions</code>: name or index of the questions column - <code>answers</code>: a vector of names or indices of answers column(s) - <code>categories</code>: name or index of categories column if available, Default: NULL - <code>question_name</code>: Default is NULL and you don’t have to pass it. If you want them, it will be name or index of the questions names column. If NULL, it will be the first 40 letters of the question title. - <code>question_type</code> name or index of the questions type column. - <code>mcq_answer_column</code>: This parameter you can use on <code>GIFTrData_2</code> as the answers of MCQs are in the first column and you have not multiple answer mcq. Default: FALSE - <code>output</code>: directory of .txt file name the questions will be exported to. The generated text will be appended to this file if it is already there, if not a new file will be created.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">GIFTr<span class="op">::</span><span class="kw">GIFTr</span>(<span class="dt">data =</span> GIFTrData, <span class="dt">question_names =</span> <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">             <span class="dt">questions =</span> <span class="dv">3</span>, <span class="dt">answers =</span> <span class="kw">c</span>(<span class="dv">4</span><span class="op">:</span><span class="dv">8</span>), </a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">             <span class="dt">categories =</span> <span class="dv">1</span>, <span class="dt">question_type =</span> <span class="dv">9</span>,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">            <span class="dt">output =</span> <span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">&quot;quiz.txt&quot;</span>))  </a></code></pre></div>
+<pre><code>## Total Number of Questions passed: 11</code></pre>
+<pre><code>## 
+## ====
+## ====
+## ====
+## ====</code></pre>
+<pre><code>## MCQ questions input count: 2 
+## MCQ questions with single answer passed: 1 
+## MCQ questions with multiple answers passed: 1 
+## Error found: 0 
+## No valid question found : 0 
+## No valid answer found: 0</code></pre>
+<pre><code>## 
+## ====
+## ====
+## ====
+## Done MCQ!
+## ===</code></pre>
+<pre><code>## Numerical questions input count: 5 
+## Numerical questions with single answer passed: 4 
+## Numerical questions questions with multiple answers passed: 1 
+## Error found: 0 
+## No valid question found : 0 
+## No valid answer found: 0</code></pre>
+<pre><code>## 
+## ====
+## ====
+## ====
+## Done Numerical questions!
+## ====</code></pre>
+<pre><code>## total short answer questions passed is 2. 
+## Valid answer: 2 
+## error in 0 
+## 0 no question has been found 
+## 0 no valid answer has been found</code></pre>
+<pre><code>## 
+## ====
+## ====
+## ====
+## Done Short Answer questions!
+## ====</code></pre>
+<pre><code>## T/F questions passed input: 2 
+## T/F questions Passed: 2 
+## Error found: 0 
+## No question found : 0 
+## No valid answer found: 0</code></pre>
+<pre><code>## 
+## ====
+## ====
+## ====
+## Done T/F questions!
+## ====</code></pre>
+<p>Now you have a file called <code>quiz.txt</code> in temporary directory that has the questions ready to be imported by MOODLE. You can simply use only “quiz.txt” to make the file permanent in the home directory.</p>
+<p><br /></p>
+<p>You can also use specific functions if your dataframe holds only one type of questions. Check the documentation <code>mcq()</code>, <code>num_q</code>, <code>tf_q()</code> and <code>short_ans()</code> functions.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
